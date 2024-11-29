@@ -1,0 +1,148 @@
+<div class="w-screen customSZ mt-3 lg:mt-4">
+    <div class="grid flex justify-content-center">
+        <div class="col-11 customSZ-1 lg:col-9">
+            <div class="grid">
+                <div class="col-12 pt-3">
+                    <p class="text-2xl font-bold colorText-1 text-center">
+                        Convert Currencies
+                    </p>
+                </div>
+            </div>
+            <div class="grid h-full">
+                <div class="col-12">
+                    <div class="grid">
+                        <div class="col-12 pt-5 lg:col-7">
+                            <div class="grid flex justify-content-center">
+                                <div
+                                    (click)="onSelect()"
+                                    class="col-9 relative lg:h-7rem bg-2 bRadius"
+                                >
+                                    <div class="pt-3 p-2">
+                                        <app-lov
+                                            #lovs
+                                            [chaining]="true"
+                                            label="Pilih Country"
+                                            (selected)="selectCurrentA($event)"
+                                            optLabel="name"
+                                           
+                                            [filter]="true"
+                                            [customOption]="listDataA"
+                                            [value]="
+                                                valueCurrentASelected?.code
+                                            "
+                                           
+                                            class="lg:absolute positionLov"
+                                        ></app-lov>
+                                        <p class="pl-2 m-0 colorText-2">From</p>
+                                        <span
+                                            class="p-input-icon-left flex align-items-center"
+                                        >
+                                            <i
+                                                class=""
+                                                style="color: #ffeac5"
+                                                >{{ symbolA }}</i
+                                            >
+                                            <input
+                                                class="styleInpt text-xl font-bold colorText-2 bg-2"
+                                                pInputText
+                                                pKeyFilter="int"
+                                                [disabled]="isInput"
+                                                [(ngModel)]="money"
+                                                (input)="inputNumber()"
+                                            />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid mt-4 mb-4">
+                                <div class="col-12 flex justify-content-center">
+                                    <div
+                                        (click)="reverse()"
+                                        class="btnReverse cursor-pointer hvrClr"
+                                    >
+                                        <p
+                                            class="text-xl fa-solid fa-retweet"
+                                        ></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid flex justify-content-center">
+                                <div
+                                    class="col-9 relative lg:h-7rem bg-2 bRadius"
+                                >
+                                    <div class="pt-3 p-2">
+                                        <app-lov
+                                            #lovs
+                                            [chaining]="true"
+                                            label="Pilih Country"
+                                            (selected)="selectCurrentB($event)"
+                                            optLabel="name"
+                                            [filter]="true"
+                                            [customOption]="listDataB"
+                                            [value]="
+                                                valueCurrentBSelected?.code
+                                            "
+                                            class="lg:absolute positionLov"
+                                        ></app-lov>
+                                        <p class="pl-2 m-0 colorText-2">To</p>
+                                        <span
+                                            class="p-input-icon-left flex align-items-center"
+                                        >
+                                            <i
+                                                class=""
+                                                style="color: #ffeac5"
+                                                >{{ symbolB }}</i
+                                            >
+                                            <p
+                                                class="styleInpt pl-6 pt-1 text-lg font-bold colorText-2 bg-2"
+                                            >
+                                                {{ resultConvert }}
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid mt-5">
+                                <div class="col-12 flex justify-content-center">
+                                    <div class="">
+                                        <button
+                                            (click)="onDetail()"
+                                            class="cursor-pointer hvrClr w-10rem h-3rem lg:w-15rem lg:h-3rem btnDetail colorText-2 text-lg"
+                                        >
+                                            Detail
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="showDetail"
+                            class="col-12 lg:pt-4 lg:pr-4 lg:col-5"
+                        >
+                            <div
+                                class="w-full p-2 lg:h-25rem border-round min-h-3rem bg-2"
+                            >
+                                <p
+                                    class="p-2 border-bottom-1 text-lg font-semibold colorText-2"
+                                >
+                                    {{ fullNameFrom }} To {{ fullNameTo }}
+                                </p>
+                                <p class="colorText-2">
+                                    {{ valueDetailFrom }} {{ nameFrom }} =
+                                    {{ valueDetailTo }} {{ nameTo }}
+                                </p>
+
+                                <p class="colorText-2 mt-3">
+                                    {{ valueDetailTo }} {{ nameTo }} =
+                                    {{ valueDetailFrom }} {{ nameFrom }}
+                                </p>
+                            </div>
+                            <!-- <p class="pb-2 m-0 border-bottom-1 lg:ml-5 text-lg font-semibold text-0">{{nameFrom}} to {{nameTo}}</p>
+                            <p>{{money}}{{nameFrom}} = {{resultConvert}}{{nameTo}}</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

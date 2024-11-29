@@ -1,0 +1,48 @@
+<div class="w-screen customSZ mt-3 lg:mt-4">
+    <div class="grid flex justify-content-center">
+        <div class="col-11 customSZ-1 p-3 lg:p-5 lg:col-9">
+            <!-- <app-search
+            [isFilter]="true"
+            ></app-search> -->
+            <!-- #lovs -->
+            <!-- (selected)="selectCurrentA($event)" -->
+            <!-- [value]="valueCurrentASelected?.code" -->
+            <!-- [customOption]="listDataA" -->
+            <div class="grid">
+                <div class="col-12 flex flex-row-reverse" >
+                    <app-lov
+                        *ngIf="dataCurency.length > 0"
+                        [chaining]="true"
+                        
+                        [filter]="true"
+                        optLabel="code"
+                        [customOption]="dataCurency"
+                        (selected)="selectCurrent($event)"
+                       
+                    ></app-lov>
+                </div>
+            </div>
+
+            <app-table
+                *ngIf="list.length > 0"
+                [count]="list.length"
+                [isStatus]="false"
+                [columMap]="columMap"
+                [list]="list"
+                [isLazy]="false"
+                #TableComponent
+                [isSelectable]="false"
+                [isKebab]="false"
+            ></app-table>
+        </div>
+    </div>
+</div>
+
+
+<!-- (search)="onSearch($event)" -->
+
+<!-- [isStatus]="true" -->
+<!-- [columMap]="columMap" -->
+<!-- uri="users" -->
+<!-- [kebabOption]="kebabOption" -->
+<!-- (action)="tableAction($event)" -->
