@@ -74,7 +74,7 @@ const web: string = localStorage.getItem('web') ?? 'admin';
                     // canActivate: [AuthGuard],
                 },
 
-                { path: '**', redirectTo: '404' },
+                { path: '**', redirectTo: 'convert' },
             ],
             {
                 scrollPositionRestoration: 'enabled',
