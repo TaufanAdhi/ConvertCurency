@@ -22,22 +22,21 @@ export class CurrencyConvertComponent {
     public text: any = true;
     public valueCurrentASelected: any;
     public valueCurrentBSelected: any;
-    public isInput : boolean = true;
+    public isInput: boolean = false;
     public listDataA: any = [];
     public listDataB: any = [];
-    public showDetail : boolean = false;
-    public nameFrom : string = ``;
-    public nameTo : string = '';
-    
-    public fullNameFrom : string = ``;
-    public fullNameTo : string = ``;
-    public valueDetailFrom : any = ``;
-    public valueDetailTo : any = ``;
+    public showDetail: boolean = false;
+    public nameFrom: string = ``;
+    public nameTo: string = '';
 
+    public fullNameFrom: string = ``;
+    public fullNameTo: string = ``;
+    public valueDetailFrom: any = ``;
+    public valueDetailTo: any = ``;
 
-    public formCurency : FormGroup;
+    public formCurency: FormGroup;
 
-    coba : boolean = true;
+    coba: boolean = true;
 
     constructor(
         private api: ApiService,
@@ -46,24 +45,25 @@ export class CurrencyConvertComponent {
     ) {}
 
     ngOnInit() {
-         
+        this.createForm()
+
         this.getListLov();
     }
 
-    onSelect(){
-        this.coba = false;
+    onSelect() {
+        // this.coba = false;
+        // console.log(`ok`);
     }
 
-    createForm(){
+    createForm() {
         this.formCurency = this.fb.group({
-            selectFrom : [``,Validators.required],
-            selectTo : [``,Validators.required]
-        })
+            selectFrom: [``, Validators.required],
+            selectTo: [``, Validators.required],
+        });
     }
 
-
-    onDetail(){
-        this.nameFrom =  this.valueCurrentASelected.code;
+    onDetail() {
+        this.nameFrom = this.valueCurrentASelected.code;
         this.nameTo = this.valueCurrentBSelected.code;
         this.fullNameFrom = this.valueCurrentASelected.fullName;
         this.fullNameTo = this.valueCurrentBSelected.fullName;
@@ -79,7 +79,7 @@ export class CurrencyConvertComponent {
         this.api.getCurrency(codeA).subscribe({
             next: (res: any) => {
                 console.log(res);
-                
+
                 console.log(res.rates[codeB]);
 
                 let result = res.rates[codeB] * this.money;
@@ -92,11 +92,16 @@ export class CurrencyConvertComponent {
     }
 
     inputNumber() {
-        this.calcuProgres();
+        if(this.formCurency.valid){
+            this.calcuProgres();
+        }else {
+            this.formCurency.markAllAsTouched();
+        }
     }
 
     selectCurrentA(e) {
-        console.log(e); 
+        // console.log(e);
+        this.formCurency.get(`selectFrom`).patchValue(e);
         this.valueCurrentASelected = e;
         this.symbolA = e.symbol;
         if (
@@ -111,6 +116,7 @@ export class CurrencyConvertComponent {
     selectCurrentB(e) {
         this.valueCurrentBSelected = e;
         this.symbolB = e.symbol;
+        this.formCurency.get(`selectTo`).patchValue(e);
         if (
             this.valueCurrentASelected !== undefined &&
             this.valueCurrentBSelected !== undefined
@@ -142,8 +148,6 @@ export class CurrencyConvertComponent {
                     res.forEach((e) => {
                         let key = Object.keys(e.currencies)[0];
 
-                       
-
                         let a = Object.keys(e.currencies).length;
 
                         if (a === 1) {
@@ -154,13 +158,13 @@ export class CurrencyConvertComponent {
                                 name: `${key}-${b}`,
                                 code: key,
                                 symbol: c,
-                                fullName : b
+                                fullName: b,
                             });
                             this.listDataB.push({
                                 name: `${key}-${b}`,
                                 code: key,
                                 symbol: c,
-                                fullName : b
+                                fullName: b,
                             });
                         } else {
                             for (let i = 0; i < a; i++) {
@@ -171,13 +175,13 @@ export class CurrencyConvertComponent {
                                     name: `${key}-${b}`,
                                     code: key,
                                     symbol: c,
-                                    fullName : b
+                                    fullName: b,
                                 });
                                 this.listDataB.push({
                                     name: `${key}-${b}`,
                                     code: key,
                                     symbol: c,
-                                    fullName : b
+                                    fullName: b,
                                 });
                             }
                         }

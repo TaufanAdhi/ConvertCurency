@@ -14,8 +14,8 @@
                         <div class="col-12 pt-5 lg:col-7">
                             <div class="grid flex justify-content-center">
                                 <div
-                                    (click)="onSelect()"
                                     class="col-9 relative lg:h-7rem bg-2 bRadius"
+                                    (click)="onSelect()"
                                 >
                                     <div class="pt-3 p-2">
                                         <app-lov
@@ -24,17 +24,21 @@
                                             label="Pilih Country"
                                             (selected)="selectCurrentA($event)"
                                             optLabel="name"
-                                           
                                             [filter]="true"
                                             [customOption]="listDataA"
                                             [value]="
                                                 valueCurrentASelected?.code
                                             "
-                                           
+                                             [ngClass]="{
+                                                'ng-invalid ng-dirty':
+                                                formCurency.get('selectFrom')?.invalid &&
+                                                (formCurency.get('selectFrom')?.dirty || formCurency.get('selectFrom')?.touched),
+                                            }"
                                             class="lg:absolute positionLov"
                                         ></app-lov>
                                         <p class="pl-2 m-0 colorText-2">From</p>
                                         <span
+                                            
                                             class="p-input-icon-left flex align-items-center"
                                         >
                                             <i
@@ -82,6 +86,11 @@
                                             [value]="
                                                 valueCurrentBSelected?.code
                                             "
+                                            [ngClass]="{
+                                                'ng-invalid ng-dirty':
+                                                formCurency.get('selectTo')?.invalid &&
+                                                (formCurency.get('selectTo')?.dirty || formCurency.get('selectTo')?.touched),
+                                            }"
                                             class="lg:absolute positionLov"
                                         ></app-lov>
                                         <p class="pl-2 m-0 colorText-2">To</p>
