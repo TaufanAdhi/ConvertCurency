@@ -1,19 +1,14 @@
-
-
 .tes {
     // border: red;
     display: none;
 }
 
-
-
 .colorText-1 {
     color: black;
 }
 
-
 .colorText-2 {
-    color: #FFEAC5;
+    color: #ffeac5;
 }
 
 .customSZ {
@@ -23,63 +18,56 @@
     // background-color: #000000;
 }
 
-
-.customSZ-1{
+.customSZ-1 {
     background-color: #ffeac5;
     min-height: 35rem;
     border-radius: 35px;
 }
 
-
-.theme-1{
+.theme-1 {
     background-color: #ffeac5;
-    color: #6C4E31;
+    color: #6c4e31;
     // display: none;
-}   
+}
 
 .hvrClr {
     transition: 0.5s;
-    background-color: #6C4E31;
+    background-color: #6c4e31;
     color: #ffeac5;
-    
 }
 
 .hvrClr:hover {
     background-color: #ffeac5;
-    color: #6C4E31;
-    border: 1px solid #6C4E31;
+    color: #6c4e31;
+    border: 1px solid #6c4e31;
 }
 
 .bg-1 {
     background-color: #ffeac5;
 }
 
-
-.bg-2{
-    background-color: #6C4E31;
+.bg-2 {
+    background-color: #6c4e31;
 }
-
 
 .bRadius {
     border-radius: 20px;
 }
 
-.styleInpt{
+.styleInpt {
     border: none;
-
 }
 
-.positionLov{
+.positionLov {
     // display: none;
-    top: 3% ;
+    top: 3%;
     right: 3%;
 }
 
-.btnReverse{
+.btnReverse {
     padding: 0.5rem;
     border-radius: 14px;
 }
-
 
 .btnDetail {
     border-radius: 30px;
@@ -87,14 +75,13 @@
     color: white;
 }
 
-
-
-
-
-
 :host ::ng-deep {
     .p-dropdown.p-component {
         width: 15rem;
         background-color: #ffeac5;
-    } 
+    }
+
+    input.p-inputtext.p-component.p-element.styleInpt.xs\:w-1rem.text-xl.font-bold.colorText-2.bg-2.ng-untouched.ng-pristine.ng-valid {
+        width: 100%;
+    }
 }
