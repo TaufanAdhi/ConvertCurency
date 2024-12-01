@@ -45,14 +45,9 @@ export class CurrencyConvertComponent {
     ) {}
 
     ngOnInit() {
-        this.createForm()
+        this.createForm();
 
         this.getListLov();
-    }
-
-    onSelect() {
-        // this.coba = false;
-        // console.log(`ok`);
     }
 
     createForm() {
@@ -92,15 +87,14 @@ export class CurrencyConvertComponent {
     }
 
     inputNumber() {
-        if(this.formCurency.valid){
+        if (this.formCurency.valid) {
             this.calcuProgres();
-        }else {
+        } else {
             this.formCurency.markAllAsTouched();
         }
     }
 
     selectCurrentA(e) {
-        // console.log(e);
         this.formCurency.get(`selectFrom`).patchValue(e);
         this.valueCurrentASelected = e;
         this.symbolA = e.symbol;
@@ -145,30 +139,14 @@ export class CurrencyConvertComponent {
             .subscribe({
                 next: (res: any) => {
                     console.log(res);
+                    let storageCode = new Set();
                     res.forEach((e) => {
-                        let key = Object.keys(e.currencies)[0];
-
+                        
                         let a = Object.keys(e.currencies).length;
-
-                        if (a === 1) {
-                            let b = e.currencies[key].name;
-                            let c = e.currencies[key].symbol;
-                            //    console.log(b);
-                            this.listDataA.push({
-                                name: `${key}-${b}`,
-                                code: key,
-                                symbol: c,
-                                fullName: b,
-                            });
-                            this.listDataB.push({
-                                name: `${key}-${b}`,
-                                code: key,
-                                symbol: c,
-                                fullName: b,
-                            });
-                        } else {
-                            for (let i = 0; i < a; i++) {
-                                key = Object.keys(e.currencies)[i];
+                        for (let i = 0; i < a; i++) {
+                            let key = Object.keys(e.currencies)[i];
+                            if (!storageCode.has(key)) {
+                                storageCode.add(key);
                                 let b = e.currencies[key].name;
                                 let c = e.currencies[key].symbol;
                                 this.listDataA.push({
@@ -186,12 +164,17 @@ export class CurrencyConvertComponent {
                             }
                         }
                     });
-
-                    const array = this.lovComponent.toArray();
-                    array.forEach((item) => {
-                        item.fetchData();
+                    console.log(this.listDataA);
+                    let byName = this.listDataA.slice(0);
+                    byName.sort(function (a, b) {
+                        let x = a.name.toLowerCase();
+                        let y = b.name.toLowerCase();
+                        return x < y ? -1 : x > y ? 1 : 0;
                     });
-                    this.changeDetectorRef.detectChanges();
+                    this.listDataA = byName;
+                    this.listDataB = byName;
+
+                    console.log(this.listDataA);
                 },
                 error: (err) => {
                     console.log(err);

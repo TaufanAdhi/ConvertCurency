@@ -15,11 +15,11 @@
                             <div class="grid flex justify-content-center">
                                 <div
                                     class="col-9 relative lg:h-7rem bg-2 bRadius"
-                                    (click)="onSelect()"
+                                    
                                 >
                                     <div class="pt-3 p-2">
                                         <app-lov
-                                            #lovs
+                                            *ngIf="listDataA.length > 0"
                                             [chaining]="true"
                                             label="Pilih Country"
                                             (selected)="selectCurrentA($event)"
@@ -29,7 +29,7 @@
                                             [value]="
                                                 valueCurrentASelected?.code
                                             "
-                                             [ngClass]="{
+                                            [ngClass]="{
                                                 'ng-invalid ng-dirty':
                                                 formCurency.get('selectFrom')?.invalid &&
                                                 (formCurency.get('selectFrom')?.dirty || formCurency.get('selectFrom')?.touched),
@@ -38,7 +38,6 @@
                                         ></app-lov>
                                         <p class="pl-2 m-0 colorText-2">From</p>
                                         <span
-                                            
                                             class="p-input-icon-left flex align-items-center"
                                         >
                                             <i
@@ -76,7 +75,7 @@
                                 >
                                     <div class="pt-3 p-2">
                                         <app-lov
-                                            #lovs
+                                            *ngIf="listDataB.length > 0"
                                             [chaining]="true"
                                             label="Pilih Country"
                                             (selected)="selectCurrentB($event)"
@@ -146,8 +145,7 @@
                                     {{ valueDetailFrom }} {{ nameFrom }}
                                 </p>
                             </div>
-                            <!-- <p class="pb-2 m-0 border-bottom-1 lg:ml-5 text-lg font-semibold text-0">{{nameFrom}} to {{nameTo}}</p>
-                            <p>{{money}}{{nameFrom}} = {{resultConvert}}{{nameTo}}</p> -->
+                            
                         </div>
                     </div>
                 </div>

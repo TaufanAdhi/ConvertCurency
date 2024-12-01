@@ -7,10 +7,10 @@ import { ApiService } from '@core/service/api.service';
     styleUrls: ['./currency-table.component.scss'],
 })
 export class CurrencyTableComponent {
-    list: any = [];
-    dataCurency : any = [];
-    valueSelected: string = ``;
-    columMap = [
+    public list: any = [];
+    public dataCurency: any = [];
+    public valueSelected: string = ``;
+    public columMap = [
         {
             label: 'code',
             key: 'code',
@@ -36,26 +36,26 @@ export class CurrencyTableComponent {
 
     ngOnInit() {
         this.getLIstCurency();
+        this.getList();
     }
 
     selectCurrent(dataCurency: any) {
-        // this.valueSelected = dataCurency;
         this.list = [];
         this.api
-        .get(`https://restcountries.com/v3.1/all?fields=currencies`)
-        .subscribe({
-            next: (res: any) => {
+            .get(`https://restcountries.com/v3.1/all?fields=currencies`)
+            .subscribe({
+                next: (res: any) => {
+                    console.log(res);
+                    let storageCode = new Set();
                     res.forEach((e) => {
-                        let key = Object.keys(e.currencies)[0];
                         let lengthObj = Object.keys(e.currencies).length;
 
                         for (let i = 0; i < lengthObj; i++) {
-                            key = Object.keys(e.currencies)[i];
-                            this.api
-                                .getCurrency(`${dataCurency.code}`)
-                                .subscribe({
+                            let key = Object.keys(e.currencies)[i];
+                            if (!storageCode.has(key)) {
+                                storageCode.add(key);
+                                this.api.getCurrency(dataCurency.code).subscribe({
                                     next: (res: any) => {
-                                        
                                         let priceCurency = res.rates[key];
                                         let nameCurency =
                                             e.currencies[key].name;
@@ -70,14 +70,19 @@ export class CurrencyTableComponent {
                                             roundValue:
                                                 Math.round(priceCurency),
                                         });
-                                        // this.changeDetectorRef.detectChanges();
+                                        let byName = this.list.slice(0);
+                                        byName.sort(function (a, b) {
+                                            let x = a.name.toLowerCase();
+                                            let y = b.name.toLowerCase();
+                                            return x < y ? -1 : x > y ? 1 : 0;
+                                        });
+                                        this.list = byName;
                                     },
                                     error: (err) => {
                                         console.log(err);
                                     },
                                 });
-                                
-                                
+                            }
                         }
                     });
                 },
@@ -85,7 +90,44 @@ export class CurrencyTableComponent {
                     console.log(err);
                 },
             });
-            
+    }
+
+    getList() {
+        this.api
+            .get('https://restcountries.com/v3.1/all?fields=currencies')
+            .subscribe({
+                next: (res: any) => {
+                    console.log(res);
+                    let storageCode = new Set();
+                    res.forEach((e) => {
+                        let a = Object.keys(e.currencies).length;
+                        for (let i = 0; i < a; i++) {
+                            let key = Object.keys(e.currencies)[i];
+                            if (!storageCode.has(key)) {
+                                storageCode.add(key);
+                                let b = e.currencies[key].name;
+                                let c = e.currencies[key].symbol;
+                                this.dataCurency.push({
+                                    name: `${key}-${b}`,
+                                    code: key,
+                                    symbol: c,
+                                    fullName: b,
+                                });
+                            }
+                        }
+                    });
+                    let byName = this.dataCurency.slice(0);
+                    byName.sort(function (a, b) {
+                        let x = a.name.toLowerCase();
+                        let y = b.name.toLowerCase();
+                        return x < y ? -1 : x > y ? 1 : 0;
+                    });
+                    this.dataCurency = byName;
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
     }
 
     getLIstCurency() {
@@ -93,38 +135,50 @@ export class CurrencyTableComponent {
             .get(`https://restcountries.com/v3.1/all?fields=currencies`)
             .subscribe({
                 next: (res: any) => {
+                    console.log(res);
+                    let storageCode = new Set();
                     res.forEach((e) => {
-                        let key = Object.keys(e.currencies)[0];
                         let lengthObj = Object.keys(e.currencies).length;
 
                         for (let i = 0; i < lengthObj; i++) {
-                            key = Object.keys(e.currencies)[i];
-                            this.api.getCurrency(`USD`).subscribe({
-                                next: (res: any) => {
-                                    let priceCurency = res.rates[key];
-                                    let nameCurency = e.currencies[key].name;
-                                    let symbolCurency =
-                                        e.currencies[key].symbol;
-                                    this.list.push({
-                                        name: `${key}-${nameCurency}`,
-                                        code: key,
-                                        symbol: symbolCurency,
-                                        fullName: nameCurency,
-                                        valueMoney: priceCurency,
-                                        roundValue: Math.round(priceCurency),
-                                    });
-                                },
-                                error: (err) => {
-                                    console.log(err);
-                                },
-                            });
+                            let key = Object.keys(e.currencies)[i];
+                            if (!storageCode.has(key)) {
+                                storageCode.add(key);
+                                this.api.getCurrency(`USD`).subscribe({
+                                    next: (res: any) => {
+                                        let priceCurency = res.rates[key];
+                                        let nameCurency =
+                                            e.currencies[key].name;
+                                        let symbolCurency =
+                                            e.currencies[key].symbol;
+                                        this.list.push({
+                                            name: `${key}-${nameCurency}`,
+                                            code: key,
+                                            symbol: symbolCurency,
+                                            fullName: nameCurency,
+                                            valueMoney: priceCurency,
+                                            roundValue:
+                                                Math.round(priceCurency),
+                                        });
+                                        let byName = this.list.slice(0);
+                                        byName.sort(function (a, b) {
+                                            let x = a.name.toLowerCase();
+                                            let y = b.name.toLowerCase();
+                                            return x < y ? -1 : x > y ? 1 : 0;
+                                        });
+                                        this.list = byName;
+                                    },
+                                    error: (err) => {
+                                        console.log(err);
+                                    },
+                                });
+                            }
                         }
                     });
-                    this.dataCurency = this.list;
                 },
                 error: (err) => {
                     console.log(err);
                 },
             });
-        }
+    }
 }
