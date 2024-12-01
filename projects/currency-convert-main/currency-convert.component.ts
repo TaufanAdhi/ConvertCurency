@@ -28,7 +28,7 @@ export class CurrencyConvertComponent {
     public showDetail: boolean = false;
     public nameFrom: string = ``;
     public nameTo: string = '';
-
+    public lastUpdate : string = '';
     public fullNameFrom: string = ``;
     public fullNameTo: string = ``;
     public valueDetailFrom: any = ``;
@@ -65,6 +65,7 @@ export class CurrencyConvertComponent {
         this.valueDetailFrom = this.money;
         this.valueDetailTo = this.resultConvert;
         this.showDetail = true;
+
     }
 
     calcuProgres() {
@@ -74,9 +75,8 @@ export class CurrencyConvertComponent {
         this.api.getCurrency(codeA).subscribe({
             next: (res: any) => {
                 console.log(res);
-
-                console.log(res.rates[codeB]);
-
+                this.lastUpdate = res.time_last_update_utc; 
+                
                 let result = res.rates[codeB] * this.money;
                 this.resultConvert = result;
             },
