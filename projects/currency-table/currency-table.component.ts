@@ -10,6 +10,9 @@ export class CurrencyTableComponent {
     public list: any = [];
     public dataCurency: any = [];
     public valueSelected: string = ``;
+    code : any = 'USD';
+    symbolA : string = `$`;
+    money : string = ''
     public columMap = [
         {
             label: 'code',
@@ -39,7 +42,64 @@ export class CurrencyTableComponent {
         this.getList();
     }
 
+
+
+    inputNumber(){
+        this.list = [];
+        this.api
+            .get(`https://restcountries.com/v3.1/all?fields=currencies`)
+            .subscribe({
+                next: (res: any) => {
+                    console.log(res);
+                    let storageCode = new Set();
+                    res.forEach((e) => {
+                        let lengthObj = Object.keys(e.currencies).length;
+                        for (let i = 0; i < lengthObj; i++) {
+                            let key = Object.keys(e.currencies)[i];
+                            if (!storageCode.has(key)) {
+                                storageCode.add(key);
+                                this.api.getCurrency(this.code).subscribe({
+                                    next: (res: any) => {
+                                        let priceCurency = res.rates[key] * Number(this.money);
+                                        let nameCurency =
+                                            e.currencies[key].name;
+                                        let symbolCurency =
+                                            e.currencies[key].symbol;
+                                        this.list.push({
+                                            name: `${key}-${nameCurency}`,
+                                            code: key,
+                                            symbol: symbolCurency,
+                                            fullName: nameCurency,
+                                            valueMoney: priceCurency,
+                                            roundValue:
+                                                Math.round(priceCurency),
+                                        });
+                                        let byName = this.list.slice(0);
+                                        byName.sort(function (a, b) {
+                                            let x = a.name.toLowerCase();
+                                            let y = b.name.toLowerCase();
+                                            return x < y ? -1 : x > y ? 1 : 0;
+                                        });
+                                        this.list = byName;
+                                    },
+                                    error: (err) => {
+                                        console.log(err);
+                                    },
+                                });
+                            }
+                        }
+                    });
+                },
+                error: (err) => {
+                    console.log(err);
+                },
+            });
+
+    }
+
     selectCurrent(dataCurency: any) {
+        this.code = dataCurency.code;
+        this.symbolA = dataCurency.symbol;
         this.list = [];
         this.api
             .get(`https://restcountries.com/v3.1/all?fields=currencies`)

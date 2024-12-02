@@ -1,9 +1,26 @@
 <div class="w-screen customSZ mt-3 lg:mt-4">
     <div class="grid flex justify-content-center">
         <div class="col-11 customSZ-1 p-3 lg:p-5 lg:col-9">
-        
+            <div>
+                <p>From</p>
+
+                <span class="p-input-icon-left flex align-items-center">
+                    <i class="" style="color: #ffeac5">{{ symbolA }}</i>
+                    <input
+                        class="styleInpt xs:w-1rem text-xl font-bold colorText-2 bg-2"
+                        pInputText
+                        pKeyFilter="int"
+                        (input)="inputNumber()"
+                        [(ngModel)]="money"
+                    />
+                </span>
+            </div>
+
+            <!-- [disabled]="isInput" -->
+            <!--  -->
+
             <div class="grid">
-                <div class="col-12 flex flex-row-reverse" >
+                <div class="col-12 flex flex-row-reverse">
                     <app-lov
                         *ngIf="dataCurency.length > 0"
                         [chaining]="true"
@@ -12,7 +29,6 @@
                         optLabel="code"
                         [customOption]="dataCurency"
                         (selected)="selectCurrent($event)"
-                       
                     ></app-lov>
                 </div>
             </div>
@@ -31,6 +47,3 @@
         </div>
     </div>
 </div>
-
-
-
